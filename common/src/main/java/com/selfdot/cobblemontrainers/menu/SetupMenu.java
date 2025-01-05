@@ -1,6 +1,7 @@
 package com.selfdot.cobblemontrainers.menu;
 
 import com.cobblemon.mod.common.CobblemonItems;
+import com.cobblemon.mod.common.api.Priority;
 import com.cobblemon.mod.common.api.abilities.AbilityTemplate;
 import com.cobblemon.mod.common.api.moves.Move;
 import com.cobblemon.mod.common.api.moves.MoveTemplate;
@@ -396,7 +397,7 @@ public class SetupMenu extends Menu<SetupMenu> {
                             i == selectedIndex ? CLOVER_SWEET : CHARCOAL
                         ).withName(Text.translatable(abilities.get(i).getDisplayName()).getString())
                             .withAction(menu -> {
-                                selectedPokemon.setAbility(abilities.get(finalI).create(false));
+                                selectedPokemon.setAbility(abilities.get(finalI).create(false, Priority.NORMAL));
                                 selectedTrainer.save();
                             })
                             .navigatesTo(ABILITIES)

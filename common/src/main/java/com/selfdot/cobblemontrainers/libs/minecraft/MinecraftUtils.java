@@ -1,5 +1,7 @@
 package com.selfdot.cobblemontrainers.libs.minecraft;
 
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.FireworkExplosionComponent;
 import net.minecraft.entity.projectile.FireworkRocketEntity;
 import net.minecraft.item.FireworkRocketItem;
 import net.minecraft.item.ItemStack;
@@ -12,6 +14,8 @@ import net.minecraft.world.World;
 
 import java.util.List;
 
+import it.unimi.dsi.fastutil.ints.IntList;
+
 import static net.minecraft.util.Formatting.*;
 
 public class MinecraftUtils {
@@ -20,11 +24,14 @@ public class MinecraftUtils {
         Vec3d position,
         World world,
         DyeColor primaryColor,
-        FireworkRocketItem.Type type,
+        //FireworkRocketItem.Type type,
+        FireworkExplosionComponent.Type type,
         DyeColor fadeColor
     ) {
         ItemStack itemStack = new ItemStack(Items.FIREWORK_ROCKET, 1);
         ItemStack itemStack2 = new ItemStack(Items.FIREWORK_STAR);
+
+        /*
         NbtCompound nbtCompound = itemStack2.getOrCreateSubNbt("Explosion");
         nbtCompound.putIntArray("Colors", List.of(primaryColor.getFireworkColor()));
         nbtCompound.putIntArray("FadeColors", List.of(fadeColor.getFireworkColor()));
@@ -35,6 +42,14 @@ public class MinecraftUtils {
         NbtCompound nbtCompound3 = itemStack2.getSubNbt("Explosion");
         if (nbtCompound3 != null) nbtList.add(nbtCompound3);
         if (!nbtList.isEmpty()) nbtCompound2.put("Explosions", nbtList);
+         */
+
+        itemStack2.set(DataComponentTypes.FIREWORK_EXPLOSION,
+                       new FireworkExplosionComponent(type,
+                                                      IntList.of(primaryColor.getFireworkColor()),
+                                                      IntList.of(fadeColor.getFireworkColor()),
+                                                      true,
+                                                      false));
 
         FireworkRocketEntity fireworkRocketEntity = new FireworkRocketEntity(
             world,

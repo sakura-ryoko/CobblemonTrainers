@@ -22,7 +22,7 @@ public class TrainersPermission implements Permission {
     @NotNull
     @Override
     public Identifier getIdentifier() {
-        return new Identifier("selfdot", literal);
+        return Identifier.of("selfdot", literal);
     }
 
     @NotNull

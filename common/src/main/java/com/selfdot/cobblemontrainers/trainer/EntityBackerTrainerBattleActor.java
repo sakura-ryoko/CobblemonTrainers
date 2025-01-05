@@ -8,7 +8,10 @@ import com.cobblemon.mod.common.battles.pokemon.BattlePokemon;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
+import net.minecraft.util.math.Vec3d;
+
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.UUID;
@@ -55,4 +58,9 @@ public class EntityBackerTrainerBattleActor extends AIBattleActor implements Ent
         return battleLang("owned_pokemon", getName(), name);
     }
 
+    @Override
+    public @Nullable Vec3d getInitialPos()
+    {
+        return entity.getPos();
+    }
 }

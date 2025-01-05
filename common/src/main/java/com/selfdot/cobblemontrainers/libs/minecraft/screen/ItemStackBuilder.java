@@ -1,6 +1,10 @@
 package com.selfdot.cobblemontrainers.libs.minecraft.screen;
 
 import lombok.extern.slf4j.Slf4j;
+
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.LoreComponent;
+import net.minecraft.component.type.ProfileComponent;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -11,6 +15,7 @@ import net.minecraft.nbt.NbtString;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.text.Texts;
+import net.minecraft.util.Unit;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,26 +64,47 @@ public class ItemStackBuilder {
 
     public ItemStack build() {
         if (!name.isEmpty()) {
+            /*
             itemStack.getOrCreateSubNbt("display")
                 .putString(
                     "Name",
                     "{\"text\":\"" + name.replace("\"", "\\\"") + "\",\"italic\":false}"
                 );
+             */
+            itemStack.set(DataComponentTypes.CUSTOM_NAME,
+                          Text.literal(name).setStyle(Style.EMPTY.withItalic(false)));
+
         }
         if (noAdditional) {
+            /*
             itemStack.addHideFlag(ItemStack.TooltipSection.ADDITIONAL);
             itemStack.getOrCreateNbt().putBoolean("HideTooltip", true);
+             */
+            itemStack.set(DataComponentTypes.HIDE_ADDITIONAL_TOOLTIP,
+                          Unit.INSTANCE);
         }
         if (!lore.isEmpty()) {
+            /*
             NbtCompound displayNbt = itemStack.getOrCreateSubNbt("display");
             NbtList nbtLore = new NbtList();
             lore.forEach(line -> nbtLore.add(NbtString.of(Text.Serializer.toJson(
                 Texts.join(Text.literal(line).getWithStyle(Style.EMPTY.withItalic(false)), Text.of(""))
             ))));
             displayNbt.put("Lore", nbtLore);
+             */
+            List<Text> lines = new ArrayList<>();
+            lore.forEach(line ->
+                                 lines.add(
+                                         Text.literal(line).setStyle(Style.EMPTY.withItalic(false))
+                                 )
+            );
+            itemStack.set(DataComponentTypes.LORE,
+                          new LoreComponent(lines));
         }
         if (playerSkull != null) {
-            itemStack.getOrCreateNbt().putString("SkullOwner", playerSkull.getGameProfile().getName());
+            //itemStack.getOrCreateNbt().putString("SkullOwner", playerSkull.getGameProfile().getName());
+            itemStack.set(DataComponentTypes.PROFILE,
+                          new ProfileComponent(playerSkull.getGameProfile()));
         }
         return itemStack;
     }

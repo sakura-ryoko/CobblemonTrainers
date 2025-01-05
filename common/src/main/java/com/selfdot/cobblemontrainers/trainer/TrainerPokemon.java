@@ -54,19 +54,19 @@ public class TrainerPokemon {
         JsonObject jsonObject = jsonElement.getAsJsonObject();
 
         String speciesString = jsonObject.get(POKEMON_SPECIES).getAsString();
-        species = PokemonSpecies.INSTANCE.getByIdentifier(new Identifier(speciesString));
+        species = PokemonSpecies.INSTANCE.getByIdentifier(Identifier.of(speciesString));
         if (species == null) throw new IllegalStateException("Invalid species: " + speciesString);
 
         gender = Gender.valueOf(jsonObject.get(POKEMON_GENDER).getAsString());
         level = jsonObject.get(POKEMON_LEVEL).getAsInt();
 
         String natureString = jsonObject.get(POKEMON_NATURE).getAsString();
-        nature = Natures.INSTANCE.getNature(new Identifier(natureString));
+        nature = Natures.INSTANCE.getNature(Identifier.of(natureString));
         if (nature == null) throw new IllegalStateException("Invalid nature: " + natureString);
 
         ability = new Ability(Abilities.INSTANCE.getOrException(
             jsonObject.get(POKEMON_ABILITY).getAsString()
-        ), false);
+        ), false, Priority.NORMAL);
         ivs = (IVs) new IVs().loadFromJSON(jsonObject.get(POKEMON_IVS).getAsJsonObject());
         evs = (EVs) new EVs().loadFromJSON(jsonObject.get(POKEMON_EVS).getAsJsonObject());
         moveset = new MoveSet();
@@ -113,7 +113,7 @@ public class TrainerPokemon {
         pokemon.setShiny(isShiny);
         Set<String> setAspects = new HashSet<>(aspects);
         if (isShiny) setAspects.add("shiny");
-        pokemon.setAspects(setAspects);
+        pokemon.setForcedAspects(setAspects);
         pokemon.setLevel(level);
         pokemon.initializeMoveset(true);
         pokemon.setNature(nature);
