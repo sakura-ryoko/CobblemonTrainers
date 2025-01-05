@@ -22,17 +22,20 @@ public class EntityBackerTrainerBattleActor extends AIBattleActor implements Ent
 
     private final String name;
     private final LivingEntity entity;
+    private final Vec3d initalPos;
 
     public EntityBackerTrainerBattleActor(
         String name,
         LivingEntity entity,
         UUID uuid,
         List<BattlePokemon> pokemonList,
-        BattleAI artificialDecider
+        BattleAI artificialDecider,
+        Vec3d initialPos
     ) {
         super(uuid, pokemonList, artificialDecider);
         this.name = name;
         this.entity = entity;
+        this.initalPos = initialPos;
     }
 
     @Override
@@ -61,6 +64,6 @@ public class EntityBackerTrainerBattleActor extends AIBattleActor implements Ent
     @Override
     public @Nullable Vec3d getInitialPos()
     {
-        return entity.getPos();
+        return this.initalPos;
     }
 }
