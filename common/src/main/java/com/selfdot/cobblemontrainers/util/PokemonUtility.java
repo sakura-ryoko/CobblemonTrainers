@@ -53,7 +53,7 @@ public class PokemonUtility {
                 trainer.getName(), UUID.randomUUID(), trainer.getBattleTeam(), battleAI
             ) :
             new EntityBackerTrainerBattleActor(
-                trainer.getName(), trainerEntity, UUID.randomUUID(), trainer.getBattleTeam(), battleAI, player.getPos()
+                trainer.getName(), trainerEntity, UUID.randomUUID(), trainer.getBattleTeam(), battleAI, player.getEyePos()
             );
 
         ErroredBattleStart errors = new ErroredBattleStart();
